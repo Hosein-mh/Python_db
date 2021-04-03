@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "username": "Mamad",
+      "password": "1234",
+      "age": 23,
+      "email": "sd@sd.com"
+    },
+    {
+      "username": "Hamid",
+      "password": "sdfajjsd",
+      "age": 28,
+      "email": "hamid@g.com"
+    },
+    {
+      "username": "Hasan",
+      "password": "sdfpas",
+      "age": 28,
+      "email": "hasan@g.com"
+    },
+    {
+      "username": "Ali",
+      "password": "234234",
+      "age": 21,
+      "email": "ali@gmail.com"
+    }
+  ]
+}
