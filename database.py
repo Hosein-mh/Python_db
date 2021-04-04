@@ -12,14 +12,19 @@ def insert(data):
     """ 
     inserting data to the users table 
     """
-    with open('database.json', mode='r') as userFile:
-        users_json = json.load(userFile)
-        users_json['users'].append(data)
-        userFile.close()
-    with open('database.json', mode='w') as userFile:
-        userFile.write(json.dumps(users_json))
-        userFile.close()
-        print('insert done')
+    value_list = statements[3][7:-1].split(',')
+
+    data = {
+        'username': value_list[0],
+        'password': value_list[1],
+        'age': int(value_list[2]),
+        'email': value_list[3]
+    }
+
+    with open('database.txt', mode='a') as database_file:
+        string = f'''\n{data["username"]}|{{"username":"{data["username"]}","password":"{data["password"]}","age":{data["age"]},"email":"{data["email"]}"}}'''
+        database_file.write(string)
+        database_file.close()
 
 
 def read(statements):
@@ -27,12 +32,23 @@ def read(statements):
     reading data from the users table 
     """
     if len(statements) <= 5:
-        # return all data
-        with open('database.json', mode='r') as userFile:
-            users_json = json.load(userFile)
-            userFile.close()
-            print(users_json)
-            return users_json
+
+        users_list = []
+        users_json_list = []
+
+        with open('database.txt', mode='r') as database_file:
+            users_list = [x.split('|') for x in database_file.read().split('\n')]
+            database_file.close
+
+        if len(users_list) < 1:
+            print('no data found')
+            return
+        for user_data in users_list:
+            user = json.loads(user_data[1])
+            users_json_list.append(user)
+
+        print(users_json_list)
+        return(users_json_list)
     else:
         # example: condition username=Hossein , condition_list = ["username", "Hossein"]
         condition_list = statements[5].split('=')
@@ -122,15 +138,7 @@ while(True):
         break
     statements = query.split(' ')
     if statements[0] == 'insert':
-        value_list = statements[3][7:-1].split(',')
-
-        data = {
-            'username': value_list[0],
-            'password': value_list[1],
-            'age': int(value_list[2]),
-            'email': value_list[3]
-        }
-        insert(data)
+        insert(statements)
     if statements[0] == 'select':
         read(statements)
 
