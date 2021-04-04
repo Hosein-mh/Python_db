@@ -1,3 +1,4 @@
-Hossein|{"username":Hossein,"password":123,"age":25,"email":sd@sfd.com}
-Ali|{"username":Ali,"password":sdfadasf,"age":20,"email":ali@sfd.com}
-Hamid|{"username":"Hamid","password":sdfa,"age":23,"email":sd@gk.com}
+Hossein|{"username":"Hossein","password":"123","age":25,"email":"sd@sfd.com"}
+Ali|{"username":"Ali","password":"sdfadasf","age":20,"email":"ali@sfd.com"}
+Hamid|{"username":"Hamid","password":"sdfa","age":23,"email":"sd@gk.com"}
+Javad|{"username":"Javad","password":"javati23","age":28,"email":"mamad@ls.com"}
