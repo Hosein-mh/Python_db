@@ -1,7 +1,7 @@
 """
 Query samples:
     INSERT: insert into users values(username_srt,password_str,age_int,email_str)
-    READ: select all from users where age=21 || select *
+    READ: select all from users where username=Ali || select * // it just searchs based on username
     UPDATE: update users set username=Jafar,password=1234 where username=Ali,
     DELETE: delete from users where username=Ali || delete #this will delete all data
 """
@@ -31,14 +31,14 @@ def read(statements):
     """ 
     reading data from the users table 
     """
+    users_list = []
+    users_json_list = []
+
+    with open('database.txt', mode='r') as database_file:
+        users_list = [x.split('|') for x in database_file.read().split('\n')]
+        database_file.close
+
     if len(statements) <= 5:
-
-        users_list = []
-        users_json_list = []
-
-        with open('database.txt', mode='r') as database_file:
-            users_list = [x.split('|') for x in database_file.read().split('\n')]
-            database_file.close
 
         if len(users_list) < 1:
             print('no data found')
@@ -53,26 +53,16 @@ def read(statements):
         # example: condition username=Hossein , condition_list = ["username", "Hossein"]
         condition_list = statements[5].split('=')
         if len(condition_list) == 2:
-            with open('database.json', mode='r') as userFile:
-                users_json = json.load(userFile)
-                userlist = []
-                for user in users_json['users']:
-                    for user_key, user_value in user.items():
-                        if condition_list[0] == 'age':
-                            # age field is integer
-                            if user_key=='age' and user_value==int(condition_list[1]):
-                                userlist.append(user)
-                                
-                        if user_key==condition_list[0] and user_value==condition_list[1]:
-                            userlist.append(user)
-                            
-                if userlist:
-                    print(userlist)
-                    return userlist
-                else:
-                    print('no user found')
-                    return None
-                userFile.close()
+            # find users and convert it to json and append it to users_json_list
+            for user in users_list:
+                if user[0] == condition_list[1]:
+                    users_json_list.append(json.loads(user[1]))
+            
+        print(users_json_list)
+        return users_json_list
+
+
+                
 
 
 def delete(statements):
