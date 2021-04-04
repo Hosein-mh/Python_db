@@ -66,32 +66,28 @@ def read(statements):
 
 
 def delete(statements):
-    message=''
-    with open("database.json", mode="r") as userFile: 
-        users_json = json.load(userFile)
-    
-    if len(statements) < 4:
+    database_lines = ''
+    with open("database.txt", mode="r+") as database_file: 
+        database_lines = database_file.readlines()
+
         # if query have delete keyword but not completed delete all data
-        users_json['users'].clear()
-        message = 'all data have removed'
+        if len(statements) < 4:
+            database_file.truncate(0)
+            print('all data cleared')
+            return
 
-    else:
-        condition_list = statements[4].split('=')
-
-        for user in users_json['users']:
-            if condition_list[0] == 'age':
-                if user[condition_list[0]] == int(condition_list[1]):
-                    users_json['users'].remove(user)
-                    message = 'the user have removed'
-
-            if user[condition_list[0]] == condition_list[1]:
-                users_json['users'].remove(user)
-                message = 'the user have removed'
-    
-    with open("database.json", mode="w") as userFile:
-        json.dump(users_json, userFile)
-        print(message)
-
+    if len(statements) >= 4:
+        with open("database.txt", mode="w") as database_file:
+            condition_list = statements[4].split('=')
+            if len(condition_list) == 2:
+                for line in database_lines:
+                    if not line.strip().startswith(f"{condition_list[1]}|"):
+                        print(line)
+                        database_file.write(line)
+                print('line successfully deleted')
+                return
+            print('wrong conditional query')
+            return
 
 def update(statements):
     if len(statements) < 5 or statements[4] != 'where' :
